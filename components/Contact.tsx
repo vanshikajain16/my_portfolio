@@ -6,9 +6,12 @@ import { GithubIcon, LinkedinIcon } from "./icons";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 
+// Gmail compose URL built from the profile email (works without a configured mail app)
+const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(profile.email)}&su=Hello%20Vanshika`;
+
 // Every URL comes from data/profile.ts; external flag drives target/rel
 const items = [
-  { name: "Email", href: `mailto:${profile.email}`, icon: <Mail size={20} aria-hidden="true" />, external: false },
+  { name: "Email", href: `mailto:${profile.email}`, icon: <Mail size={20} aria-hidden="true" />, external: false, gmail: true },
   { name: "GitHub", href: profile.links.github, icon: <GithubIcon />, external: true },
   { name: "LinkedIn", href: profile.links.linkedin, icon: <LinkedinIcon />, external: true },
   { name: "LeetCode", href: profile.links.leetcode, icon: <Code2 size={20} aria-hidden="true" />, external: true },
@@ -56,6 +59,8 @@ export default function Contact() {
                 aria-label={it.name}
                 className="icon-btn"
                 {...(it.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                // Email: mailto stays as the href fallback; mouse click opens Gmail compose instead
+                {...("gmail" in it ? { onClick: (e: React.MouseEvent) => { e.preventDefault(); window.open(gmailUrl, "_blank", "noopener,noreferrer"); } } : {})}
               >
                 {it.icon}
               </a>
@@ -71,7 +76,7 @@ export default function Contact() {
         </ul>
 
         <div className="relative mt-5 inline-block">
-          <button onClick={copy} className="rounded-lg py-1 font-mono text-xs text-muted hover:text-accent" aria-label={`Copy email address ${profile.email}`}>
+          <button onClick={copy} className="cursor-pointer rounded-lg py-1 font-mono text-xs text-muted underline decoration-dotted underline-offset-4 transition-colors hover:text-accent hover:decoration-solid" aria-label={`Copy email address ${profile.email}`}>
             {profile.email}
           </button>
           {/* Polite live region so screen readers hear the confirmation */}
