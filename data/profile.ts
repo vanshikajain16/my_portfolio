@@ -28,7 +28,7 @@ export const profile = {
     resume: "/resume.pdf",
   },
   // TODO: add a production URL for canonical + Open Graph (e.g. https://yourname.dev)
-  siteUrl: "http://localhost:3000",
+  siteUrl: "https://my-portfolio-rho-ten-61.vercel.app",
   // TODO: add a headshot or OG image at /public/og.png (1200x630) and reference it here
   ogImage: "",
 };
